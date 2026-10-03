@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { categories, topicLists, articles } from "@/lib/content";
-import { site } from "@/lib/site";
+import { categories, topicLists, articles } from "../../../lib/content";
+import { site } from "../../../lib/site";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() { return categories.map((c) => ({ slug: c.slug })); }
