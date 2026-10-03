@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { articles, categories, tools } from "@/lib/content";
+import { articles, categories, tools } from "../../lib/content";
 export const metadata: Metadata = { title: "Search", description: "Search Dogwise Guide for dog-care guides and tools.", robots: { index: false, follow: true } };
 export default async function Page({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const { q = "" } = await searchParams; const s = q.toLowerCase().trim();
