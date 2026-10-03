@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { categories, tools, articles, siteDescription } from "@/lib/content";
-import { site } from "@/lib/site";
+import { categories, tools, articles, siteDescription } from "../lib/content";
+import { site } from "../lib/site";
 
 export default function Home() {
   const websiteSchema = { "@context": "https://schema.org", "@type": "WebSite", name: site.name, description: site.description, url: site.url, publisher: { "@type": "Organization", name: site.name, url: site.url } };
