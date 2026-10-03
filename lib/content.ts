@@ -38,3 +38,4 @@ export const topicLists={
 "puppies":["New puppy checklist","First day with a puppy","Puppy sleep","Puppy feeding","Puppy growth","Puppy socialization","Puppy vaccinations","Puppy grooming","Puppy exercise","Puppy-proofing","Puppy biting","Puppy house training","Puppy crate training"],
 "senior-dogs":["Senior dog care","Senior dog nutrition","Senior dog exercise","Senior dog mobility","Senior dog grooming","Senior dog sleep","Age-related changes","Weight management for senior dogs"],
 "products-tools":["Dog toys","Chew toys","Puzzle toys","Dog beds","Dog crates","Harnesses","Collars","Leashes","Grooming tools","Toothbrushes","Nail clippers","Food bowls","Slow feeders","Travel gear","Dog identification","GPS trackers"]};
+// Build refresh
