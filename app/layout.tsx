@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { categories } from "@/lib/content";
-import { site } from "@/lib/site";
+import { categories } from "../lib/content";
+import { site } from "../lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
