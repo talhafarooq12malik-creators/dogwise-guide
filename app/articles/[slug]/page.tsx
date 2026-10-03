@@ -12,9 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!a) return { title: "Dog guide", robots: { index: false, follow: true } };
   return {
     title: a.title,
-    description: a.description,
-    keywords: a.keywords || undefined,
-    alternates: { canonical: `/articles/${a.slug}` },
+   description: a.description,
+alternates: { canonical: `/articles/${a.slug}` },
     openGraph: { type: "article", url: `${site.url}/articles/${a.slug}`, title: a.title, description: a.description, siteName: site.name },
   };
 }
