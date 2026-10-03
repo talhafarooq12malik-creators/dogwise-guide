@@ -6,9 +6,11 @@ import { site } from "../lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
+
   verification: {
     google: "aLZjFLsV9D0eOIIRQr2GQxWUhhI1RoZe8daihQlkUIw",
   },
+
   title: {
     default: `${site.name} | Dog Care, Health, Training & Breed Guides`,
     template: `%s | ${site.name}`,
@@ -35,45 +37,93 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en-US">
       <body>
         <div className="top">
-          <div className="wrap">Independent dog-care education • Health and safety pages list their sources</div>
+          <div className="wrap">
+            Independent dog-care education • Health and safety pages list
+            their sources
+          </div>
         </div>
+
         <nav className="nav" aria-label="Primary navigation">
           <div className="wrap navin">
-            <Link className="logo" href="/">Dogwise<span>Guide</span></Link>
+            <Link className="logo" href="/">
+              Dogwise<span>Guide</span>
+            </Link>
+
             <div className="links">
-              {categories.slice(0, 5).map((c) => <Link key={c.slug} href={`/category/${c.slug}`}>{c.name}</Link>)}
+              {categories.slice(0, 5).map((c) => (
+                <Link key={c.slug} href={`/category/${c.slug}`}>
+                  {c.name}
+                </Link>
+              ))}
+
               <Link href="/tools">Tools</Link>
               <Link href="/search">Search</Link>
             </div>
           </div>
         </nav>
+
         {children}
+
         <footer className="footer">
           <div className="wrap footergrid">
             <div>
               <h2>Dogwise Guide</h2>
-              <p>Practical, research-informed dog care information for everyday owners.</p>
-              <p className="small">Educational information only. It is not a substitute for veterinary diagnosis or treatment.</p>
+              <p>
+                Practical, research-informed dog care information for everyday
+                owners.
+              </p>
+              <p className="small">
+                Educational information only. It is not a substitute for
+                veterinary diagnosis or treatment.
+              </p>
             </div>
+
             <div>
               <h3>Explore</h3>
-              <p><Link href="/category/health-safety">Health & Safety</Link></p>
-              <p><Link href="/category/food-nutrition">Food & Nutrition</Link></p>
-              <p><Link href="/category/behavior-training">Behavior & Training</Link></p>
-              <p><Link href="/category/care-grooming">Care & Grooming</Link></p>
+              <p>
+                <Link href="/category/health-safety">Health & Safety</Link>
+              </p>
+              <p>
+                <Link href="/category/food-nutrition">Food & Nutrition</Link>
+              </p>
+              <p>
+                <Link href="/category/behavior-training">
+                  Behavior & Training
+                </Link>
+              </p>
+              <p>
+                <Link href="/category/care-grooming">Care & Grooming</Link>
+              </p>
             </div>
+
             <div>
               <h3>About</h3>
-              <p><Link href="/about">About us</Link></p>
-              <p><Link href="/editorial-guidelines">Editorial guidelines</Link></p>
-              <p><Link href="/contact">Contact</Link></p>
-              <p><Link href="/privacy">Privacy</Link></p>
-              <p><Link href="/terms">Terms</Link></p>
+              <p>
+                <Link href="/about">About us</Link>
+              </p>
+              <p>
+                <Link href="/editorial-guidelines">
+                  Editorial guidelines
+                </Link>
+              </p>
+              <p>
+                <Link href="/contact">Contact</Link>
+              </p>
+              <p>
+                <Link href="/privacy">Privacy</Link>
+              </p>
+              <p>
+                <Link href="/terms">Terms</Link>
+              </p>
             </div>
           </div>
         </footer>
