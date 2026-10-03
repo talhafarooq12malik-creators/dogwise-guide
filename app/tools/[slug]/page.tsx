@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { tools } from "@/lib/content";
-import { site } from "@/lib/site";
+import { tools } from "../../../lib/content";
+import { site } from "../../../lib/site";
 import { notFound } from "next/navigation";
-import ToolClient from "@/components/ToolClient";
+import ToolClient from "../../../components/ToolClient";
 
 export function generateStaticParams() { return tools.map((t) => ({ slug: t.slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
