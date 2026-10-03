@@ -6,6 +6,9 @@ import { site } from "../lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
+  verification: {
+    google: "aLZjFLsV9D0eOIIRQr2GQxWUhhI1RoZe8daihQlkUIw",
+  },
   title: {
     default: `${site.name} | Dog Care, Health, Training & Breed Guides`,
     template: `%s | ${site.name}`,
