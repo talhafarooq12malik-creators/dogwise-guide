@@ -1,0 +1,1 @@
+export default function NotFound(){return <main className="empty"><div className="wrap"><span className="pill">DOGWISE GUIDE</span><h1>We couldn't find that page.</h1><p>The page may have moved. Use the homepage or tools directory instead of a blank error screen.</p><p><a className="btn" href="/">Homepage</a> <a className="btn" href="/tools">Browse tools</a></p></div></main>}
