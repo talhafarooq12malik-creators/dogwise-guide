@@ -15,13 +15,29 @@ export const metadata: Metadata = {
     default: `${site.name} | Dog Care, Health, Training & Breed Guides`,
     template: `%s | ${site.name}`,
   },
+
   description: site.description,
+
   applicationName: site.name,
-  authors: [{ name: "Dogwise Guide Editorial Team" }],
+
+  authors: [
+    {
+      name: "Dogwise Guide Editorial Team",
+    },
+  ],
+
   creator: site.name,
   publisher: site.name,
-  robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  alternates: {
+    canonical: "/",
+  },
+
   openGraph: {
     type: "website",
     locale: site.locale,
@@ -30,6 +46,7 @@ export const metadata: Metadata = {
     title: site.name,
     description: site.description,
   },
+
   twitter: {
     card: "summary",
     title: site.name,
@@ -59,9 +76,12 @@ export default function RootLayout({
             </Link>
 
             <div className="links">
-              {categories.slice(0, 5).map((c) => (
-                <Link key={c.slug} href={`/category/${c.slug}`}>
-                  {c.name}
+              {categories.slice(0, 5).map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/category/${category.slug}`}
+                >
+                  {category.name}
                 </Link>
               ))}
 
@@ -77,10 +97,12 @@ export default function RootLayout({
           <div className="wrap footergrid">
             <div>
               <h2>Dogwise Guide</h2>
+
               <p>
-                Practical, research-informed dog care information for everyday
-                owners.
+                Practical, research-informed dog care information for
+                everyday owners.
               </p>
+
               <p className="small">
                 Educational information only. It is not a substitute for
                 veterinary diagnosis or treatment.
@@ -89,38 +111,37 @@ export default function RootLayout({
 
             <div>
               <h3>Explore</h3>
-              <p>
-                <Link href="/category/health-safety">Health & Safety</Link>
-              </p>
-              <p>
-                <Link href="/category/food-nutrition">Food & Nutrition</Link>
-              </p>
-              <p>
-                <Link href="/category/behavior-training">
-                  Behavior & Training
-                </Link>
-              </p>
-              <p>
-                <Link href="/category/care-grooming">Care & Grooming</Link>
-              </p>
+
+              {categories.map((category) => (
+                <p key={category.slug}>
+                  <Link href={`/category/${category.slug}`}>
+                    {category.name}
+                  </Link>
+                </p>
+              ))}
             </div>
 
             <div>
               <h3>About</h3>
+
               <p>
                 <Link href="/about">About us</Link>
               </p>
+
               <p>
                 <Link href="/editorial-guidelines">
                   Editorial guidelines
                 </Link>
               </p>
+
               <p>
                 <Link href="/contact">Contact</Link>
               </p>
+
               <p>
                 <Link href="/privacy">Privacy</Link>
               </p>
+
               <p>
                 <Link href="/terms">Terms</Link>
               </p>
