@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articles, categories } from "../../../lib/content";
+import { articles, categories, topicLists } from "../../../lib/content";
 import { site } from "../../../lib/site";
 
 export function generateStaticParams() {
-  return articles.map((a) => ({ slug: a.slug }));
+  return categories.map((category) => ({
+    slug: category.slug,
+  }));
 }
 
 export async function generateMetadata({
@@ -14,11 +16,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = articles.find((x) => x.slug === slug);
 
-  if (!article) {
+  const category = categories.find((item) => item.slug === slug);
+
+  if (!category) {
     return {
-      title: "Dog guide",
+      title: "Dog Care Category",
       robots: {
         index: false,
         follow: true,
@@ -27,22 +30,22 @@ export async function generateMetadata({
   }
 
   return {
-    title: article.title,
-    description: article.description,
+    title: `${category.name} Guides`,
+    description: category.description,
     alternates: {
-      canonical: `/articles/${article.slug}`,
+      canonical: `/category/${category.slug}`,
     },
     openGraph: {
-      type: "article",
-      url: `${site.url}/articles/${article.slug}`,
-      title: article.title,
-      description: article.description,
+      type: "website",
+      url: `${site.url}/category/${category.slug}`,
+      title: `${category.name} Guides`,
+      description: category.description,
       siteName: site.name,
     },
     twitter: {
       card: "summary",
-      title: article.title,
-      description: article.description,
+      title: `${category.name} Guides`,
+      description: category.description,
     },
   };
 }
@@ -54,47 +57,30 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const article = articles.find((x) => x.slug === slug);
+  const category = categories.find((item) => item.slug === slug);
 
-  if (!article) {
-    return notFound();
+  if (!category) {
+    notFound();
   }
 
-  const articleUrl = `${site.url}/articles/${article.slug}`;
+  const categoryArticles = articles.filter(
+    (article) => article.category === category.slug
+  );
 
-  const category = categories.find((c) => c.slug === article.category);
-
-  const categoryName =
-    category?.name || article.category.replaceAll("-", " ");
-
-  const relatedArticles = articles
-    .filter(
-      (x) =>
-        x.slug !== article.slug &&
-        x.category === article.category
-    )
-    .slice(0, 3);
+  const topics =
+    topicLists[category.slug as keyof typeof topicLists] ?? [];
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.description,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": articleUrl,
-    },
-    author: {
-      "@type": "Organization",
-      name: "Dogwise Guide Editorial Team",
-      url: site.url,
-    },
-    publisher: {
-      "@type": "Organization",
+    "@type": "CollectionPage",
+    name: `${category.name} Guides`,
+    description: category.description,
+    url: `${site.url}/category/${category.slug}`,
+    isPartOf: {
+      "@type": "WebSite",
       name: site.name,
       url: site.url,
     },
-    articleSection: categoryName,
     inLanguage: "en-US",
   };
 
@@ -111,14 +97,8 @@ export default async function Page({
       {
         "@type": "ListItem",
         position: 2,
-        name: categoryName,
-        item: `${site.url}/category/${article.category}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: article.title,
-        item: articleUrl,
+        name: category.name,
+        item: `${site.url}/category/${category.slug}`,
       },
     ],
   };
@@ -142,14 +122,12 @@ export default async function Page({
       <div className="crumb">
         <Link href="/">Home</Link>
         {" / "}
-        <Link href={`/category/${article.category}`}>
-          {categoryName}
-        </Link>
+        <span>{category.name}</span>
       </div>
 
-      <span className="pill">DOG CARE GUIDE</span>
+      <span className="pill">DOG CARE CATEGORY</span>
 
-      <h1>{article.title}</h1>
+      <h1>{category.name}</h1>
 
       <p
         style={{
@@ -157,71 +135,23 @@ export default async function Page({
           lineHeight: 1.75,
         }}
       >
-        {article.intro}
+        {category.description}
       </p>
 
-      <p
-        style={{
-          fontSize: "0.9rem",
-          opacity: 0.7,
-          marginTop: "-6px",
-        }}
-      >
-        By the Dogwise Guide Editorial Team
-      </p>
-
-      <div className="note">
-        <b>Important:</b> This guide provides general educational
-        information for dog owners. It does not diagnose illness or
-        replace advice from a veterinarian. If your dog is seriously
-        ill, injured, poisoned, having trouble breathing, or showing
-        another emergency warning sign, contact a veterinarian promptly.
-      </div>
-
-      {article.sections.map((section, index) => (
-        <section key={`${section.h}-${index}`}>
-          <h2>{section.h}</h2>
-          <p>{section.p}</p>
-        </section>
-      ))}
-
-      {article.sources?.length ? (
+      {categoryArticles.length > 0 && (
         <section>
-          <h2>Sources & further reading</h2>
-
-          <p>
-            These resources are included to help readers learn more from
-            established veterinary and animal-welfare organizations.
-          </p>
-
-          {article.sources.map((source) => (
-            <p className="source" key={source.url}>
-              <a
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {source.name}
-              </a>
-            </p>
-          ))}
-        </section>
-      ) : null}
-
-      {relatedArticles.length > 0 && (
-        <section>
-          <h2>More dog care guides</h2>
+          <h2>Published guides</h2>
 
           <div className="formgrid">
-            {relatedArticles.map((related) => (
-              <div className="toolbox" key={related.slug}>
-                <h3>{related.title}</h3>
+            {categoryArticles.map((article) => (
+              <div className="toolbox" key={article.slug}>
+                <h3>{article.title}</h3>
 
-                <p>{related.description}</p>
+                <p>{article.description}</p>
 
                 <Link
                   className="btn"
-                  href={`/articles/${related.slug}`}
+                  href={`/articles/${article.slug}`}
                 >
                   Read guide
                 </Link>
@@ -230,6 +160,58 @@ export default async function Page({
           </div>
         </section>
       )}
+
+      {topics.length > 0 && (
+        <section>
+          <h2>Topics we plan to cover</h2>
+
+          <p>
+            These are useful topics within this category that Dogwise
+            Guide may cover as the site grows. They are listed here as
+            future topics, not as published guides.
+          </p>
+
+          <ul>
+            {topics.map((topic) => (
+              <li key={topic}>{topic}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {categoryArticles.length === 0 && topics.length === 0 && (
+        <section>
+          <h2>More guides coming soon</h2>
+
+          <p>
+            New practical dog-care guides will be added to this category
+            as the site grows.
+          </p>
+        </section>
+      )}
+
+      <section>
+        <h2>Explore other dog-care categories</h2>
+
+        <div className="formgrid">
+          {categories
+            .filter((item) => item.slug !== category.slug)
+            .map((item) => (
+              <div className="toolbox" key={item.slug}>
+                <h3>{item.name}</h3>
+
+                <p>{item.description}</p>
+
+                <Link
+                  className="btn"
+                  href={`/category/${item.slug}`}
+                >
+                  Explore category
+                </Link>
+              </div>
+            ))}
+        </div>
+      </section>
     </main>
   );
 }
